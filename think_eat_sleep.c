@@ -6,9 +6,13 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/21 16:02:51 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:36:59 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	start_philos(t_data *data)
+{
+	;
+}

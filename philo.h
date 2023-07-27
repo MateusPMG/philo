@@ -6,14 +6,13 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/21 16:00:15 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:38:59 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include "libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -41,7 +40,11 @@ typedef struct s_data
 	pthread_mutex_t		check_meal;
 }	t_data;
 
+// think_eat_sleep.c
+int	start_philos(t_data *data);
+
 // utils.c
 int	free_data(t_data *data);
+int	ft_atoi(const char *nptr);
 
 #endif

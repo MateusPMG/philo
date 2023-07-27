@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/21 16:08:02 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:38:02 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int	main(int ac, char **av)
 	if (ac != 5 && ac != 6)
 		return (write(1, "wrong number of arguments\n", 26));
 	init_data(&data, av);
+	start_philos(&data);
 	return (0);
 }
