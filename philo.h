@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/27 13:38:59 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:42:00 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@
 # include <stdio.h>
 # include <pthread.h>
 
+struct	s_data;
+
 typedef struct s_philo
 {
-	int			id;
-	int			left_fork;
-	int			right_fork;
-	pthread_t	thread_id;
-	int			nb_ate;
+	int				id;
+	int				left_fork;
+	int				right_fork;
+	pthread_t		thread_id;
+	int				nb_ate;
+	struct s_data	*data;
 }	t_philo;
 
 typedef struct s_data
