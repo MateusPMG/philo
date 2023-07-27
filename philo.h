@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/27 13:42:00 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:56:22 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <sys/time.h>
 
 struct	s_data;
 
@@ -28,6 +29,7 @@ typedef struct s_philo
 	pthread_t		thread_id;
 	int				nb_ate;
 	struct s_data	*data;
+	time_t			t_last_ate;
 }	t_philo;
 
 typedef struct s_data
@@ -37,17 +39,19 @@ typedef struct s_data
 	int					time_eat;
 	int					time_sleep;
 	int					nb_eat;
-	t_philo				**philo;
-	pthread_mutex_t		**forks;
+	time_t				time_start;
+	t_philo				*philo;
+	pthread_mutex_t		*forks;
 	pthread_mutex_t		writing;
 	pthread_mutex_t		check_meal;
 }	t_data;
 
 // think_eat_sleep.c
-int	start_philos(t_data *data);
+int			start_philos(t_data *data);
 
 // utils.c
-int	free_data(t_data *data);
-int	ft_atoi(const char *nptr);
+int			free_data(t_data *data);
+int			ft_atoi(const char *nptr);
+time_t		timestamp(void);
 
 #endif

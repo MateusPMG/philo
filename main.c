@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/27 13:38:02 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:21:27 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	init_philos(t_data *data)
 	i = data->nb_philos;
 	while (--i >= 0)
 	{
-		data->philo[i]->id = i + 1;
-		data->philo[i]->nb_ate = 0;
-		data->philo[i]->left_fork = i + 1;
-		data->philo[i]->right_fork = (i % data->nb_philos) + 1;
+		data->philo[i].id = i + 1;
+		data->philo[i].nb_ate = 0;
+		data->philo[i].left_fork = i + 1;
+		data->philo[i].right_fork = (i % data->nb_philos) + 1;
 	}
 	return (0);
 }
@@ -53,8 +53,8 @@ int	init_data(t_data *data, char **av)
 	if (data->nb_philos < 1 || data->time_die <= 0 || data->time_eat <= 0
 		|| data->time_sleep <= 0)
 		return (1);
-	data->philo = (t_philo **)malloc((sizeof(t_philo *) * (data->nb_philos)));
-	data->forks = (pthread_mutex_t **)malloc(sizeof(pthread_mutex_t *)
+	data->philo = (t_philo *)malloc((sizeof(t_philo *) * (data->nb_philos)));
+	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t *)
 			* (data->nb_philos));
 	if (!data->philo || !data->forks)
 		return (free_data(data));
