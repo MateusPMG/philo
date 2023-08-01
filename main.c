@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/27 14:21:27 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/01 15:55:39 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	init_data(t_data *data, char **av)
 	data->time_die = ft_atoi(av[2]);
 	data->time_eat = ft_atoi(av[3]);
 	data->time_sleep = ft_atoi(av[4]);
+	data->died = 0;
+	data->all_ate = 0;
 	if (data->nb_philos < 1 || data->time_die <= 0 || data->time_eat <= 0
 		|| data->time_sleep <= 0)
 		return (1);
@@ -78,6 +80,6 @@ int	main(int ac, char **av)
 	if (ac != 5 && ac != 6)
 		return (write(1, "wrong number of arguments\n", 26));
 	init_data(&data, av);
-	start_philos(&data);
+	run_philos(&data);
 	return (0);
 }

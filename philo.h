@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/07/27 14:56:22 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/01 15:55:56 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_data
 	int					time_eat;
 	int					time_sleep;
 	int					nb_eat;
+	int					all_ate;
+	int					died;
 	time_t				time_start;
 	t_philo				*philo;
 	pthread_mutex_t		*forks;
@@ -46,8 +48,8 @@ typedef struct s_data
 	pthread_mutex_t		check_meal;
 }	t_data;
 
-// think_eat_sleep.c
-int			start_philos(t_data *data);
+// run_philos.c
+int			run_philos(t_data *data);
 
 // utils.c
 int			free_data(t_data *data);
