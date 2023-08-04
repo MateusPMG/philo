@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/01 15:51:39 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/04 12:44:17 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ void	eat(t_philo *phil)
 
 	data = phil->data;
 	pthread_mutex_lock(&(data->forks[phil->left_fork]));
-	printer(\\ include x grabbed a fork msg);
+	printer(data, phil->id, "has taken a fork");
 	pthread_mutex_lock(&(data->forks[phil->right_fork]));
-	printer(\\ include x grabbed a fork msg);
-	printer(\\ include x is eating);
+	printer(data, phil->id, "has taken a fork");
+	pthread_mutex_lock(&(data->check_meal));
+	printer(data, phil->id, "is eating");
 	phil->t_last_ate = timestamp();
+	pthread_mutex_unlock(&(data->check_meal));
 	sleep_func(\\ when should he eat?);
 	(phil->nb_ate)++;
 	pthread_mutex_unlock(&(data->forks[phil->left_fork]));
@@ -37,16 +39,16 @@ void	routine(void *phil)
 
 	philo = (t_philo *)phil;
 	data = philo->data;
-	if (\\ what condition???)
-		sleep_func();
+	//if (\\ what condition???)
+		//sleep_func();
 	while (!(data->died))
 	{
+		eat();
 		if (data->all_ate)
 			break ;
-		eat();
-		printer("sleeping");
+		printer(data, philo->id, "is sleeping");
 		sleep_func();
-		printer("thinking");
+		printer(data, philo->id, "is thinking");
 	}
 	return (0);
 }
