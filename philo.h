@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 14:39:43 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 16:14:34 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef struct s_philo
 typedef struct s_data
 {
 	int					nb_philos;
-	int					time_die;
-	int					time_eat;
-	int					time_sleep;
+	time_t				time_die;
+	time_t				time_eat;
+	time_t				time_sleep;
 	int					nb_eat;
 	int					all_ate;
 	int					died;
@@ -53,12 +53,15 @@ typedef struct s_data
 int			run_philos(t_data *data);
 
 //run_philos_utils.c
-void		printer(t_data	*data, int id, char *str, t_philo *philo);
+void		printer(t_data	*data, int id, char *str);
+void		single(t_philo *philo, t_data *data);
+int			died(t_data *data);
+void		supervisor(t_data *data);
 
 // utils.c
 int			free_data(t_data *data);
 int			ft_atoi(const char *nptr);
 time_t		timestamp(void);
-void		sync(t_data *data);
+void		ft_sync(t_data *data);
 
 #endif

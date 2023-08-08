@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 14:40:12 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 16:35:40 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	init_philos(t_data *data)
 {
 	int	i;
 
-	i = data->nb_philos;
-	while (--i >= 0)
+	i = -1;
+	while (++i < data->nb_philos)
 	{
 		data->philo[i].id = i + 1;
 		data->philo[i].nb_ate = 0;
@@ -83,5 +83,6 @@ int	main(int ac, char **av)
 		return (write(1, "wrong number of arguments\n", 26));
 	init_data(&data, av);
 	run_philos(&data);
+	free_data(&data);
 	return (0);
 }

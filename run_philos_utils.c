@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 12:08:23 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 16:01:01 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 16:18:44 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // checks wether someone died or they all ate x nb of times
 // and changes the respective flag
-void	printer(t_data	*data, int id, char *str, t_philo *philo)
+void	printer(t_data	*data, int id, char *str)
 {
 	int	t;
 
@@ -27,7 +27,7 @@ void	printer(t_data	*data, int id, char *str, t_philo *philo)
 	}
 	pthread_mutex_unlock(&(data->check_death));
 	pthread_mutex_lock(&(data->writing));
-	printf("%lli, philo %i %s\n", t, id, str);
+	printf("%i, philo %i %s\n", t, id, str);
 	pthread_mutex_unlock(&(data->writing));
 	return ;
 }
@@ -36,9 +36,9 @@ void	printer(t_data	*data, int id, char *str, t_philo *philo)
 void	single(t_philo *philo, t_data *data)
 {
 	pthread_mutex_lock(&(data->forks[philo->left_fork]));
-	printer(data, philo->id, "has taken a fork", philo);
+	printer(data, philo->id, "has taken a fork");
 	usleep(data->time_die);
-	printer(data, philo->id, "has died", philo);
+	printer(data, philo->id, "has died");
 	pthread_mutex_unlock(&(data->forks[philo->left_fork]));
 }
 
@@ -54,20 +54,19 @@ int	died(t_data *data)
 void	supervisor(t_data *data)
 {
 	int	i;
-	int	t;
 	int	a;
 
-	sync(data);
+	ft_sync(data);
 	while (1)
 	{
 		i = -1;
 		a = 1;
 		while (++i < data->nb_philos)
 		{
-			if (data->time_die < timestamp - data->philo[i].t_last_ate)
+			if (data->time_die < timestamp() - data->philo[i].t_last_ate)
 			{
 				died(data);
-				printer(data, data->philo[i].id, "has died", &data->philo[i]);
+				printer(data, data->philo[i].id, "has died");
 				return ;
 			}
 			if (data->nb_eat == -1)

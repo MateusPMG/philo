@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 14:37:36 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 16:13:22 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	eat(t_philo *phil)
 
 	data = phil->data;
 	pthread_mutex_lock(&(data->forks[phil->left_fork]));
-	printer(data, phil->id, "has taken a fork", phil);
+	printer(data, phil->id, "has taken a fork");
 	pthread_mutex_lock(&(data->forks[phil->right_fork]));
-	printer(data, phil->id, "has taken a fork", phil);
-	printer(data, phil->id, "is eating", phil);
+	printer(data, phil->id, "has taken a fork");
+	printer(data, phil->id, "is eating");
 	usleep(data->time_eat);
 	phil->t_last_ate = timestamp();
 	pthread_mutex_lock(&(data->check_meal));
@@ -31,7 +31,7 @@ void	eat(t_philo *phil)
 	pthread_mutex_unlock(&(data->forks[phil->right_fork]));
 }
 
-void	routine(void *phil)
+void	*routine(void *phil)
 {
 	t_philo		*philo;
 	t_data		*data;
@@ -39,20 +39,20 @@ void	routine(void *phil)
 	philo = (t_philo *)phil;
 	data = philo->data;
 
-	sync(data);
+	ft_sync(data);
 	if (data->nb_philos)
 	{
 		single(philo, data);
-		return ;
+		return (0);
 	}
 	while (!(data->died))
 	{
 		eat(philo);
-		printer(data, philo->id, "is sleeping", philo);
+		printer(data, philo->id, "is sleeping");
 		usleep(data->time_sleep);
-		printer(data, philo->id, "is thinking", philo);
+		printer(data, philo->id, "is thinking");
 	}
-	return ;
+	return (0);
 }
 
 int	run_philos(t_data *data)
@@ -71,11 +71,11 @@ int	run_philos(t_data *data)
 		i++;
 	}
 	if (data->nb_philos > 1)
-		supervisor();
+		supervisor(data);
 	i = 0;
 	while (i < data->nb_philos)
 	{
-		if (pthread_join(&(ph[i].thread_id), NULL))
+		if (pthread_join((ph[i].thread_id), NULL))
 			return (1);
 		i++;
 	}
