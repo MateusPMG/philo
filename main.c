@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/01 15:55:39 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 14:40:12 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	init_mutex(t_data *data)
 	if (pthread_mutex_init(&(data->writing), NULL))
 		return (1);
 	if (pthread_mutex_init(&(data->check_meal), NULL))
+		return (1);
+	if (pthread_mutex_init(&(data->check_death), NULL))
 		return (1);
 	return (0);
 }

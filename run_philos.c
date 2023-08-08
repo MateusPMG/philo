@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 14:28:50 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 14:37:36 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,15 @@ void	eat(t_philo *phil)
 
 	data = phil->data;
 	pthread_mutex_lock(&(data->forks[phil->left_fork]));
-	printer(data, phil->id, "has taken a fork");
+	printer(data, phil->id, "has taken a fork", phil);
 	pthread_mutex_lock(&(data->forks[phil->right_fork]));
-	printer(data, phil->id, "has taken a fork");
-	printer(data, phil->id, "is eating");
+	printer(data, phil->id, "has taken a fork", phil);
+	printer(data, phil->id, "is eating", phil);
 	usleep(data->time_eat);
 	phil->t_last_ate = timestamp();
-	// is this conditional?
 	pthread_mutex_lock(&(data->check_meal));
 	(phil->nb_ate)++;
 	pthread_mutex_unlock(&(data->check_meal));
-	// 
 	pthread_mutex_unlock(&(data->forks[phil->left_fork]));
 	pthread_mutex_unlock(&(data->forks[phil->right_fork]));
 }
