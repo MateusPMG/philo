@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/04 12:43:17 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 13:26:58 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void		printer(t_data	*data, int id, char *str);
 int			free_data(t_data *data);
 int			ft_atoi(const char *nptr);
 time_t		timestamp(void);
+void		sync(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:58:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/01 15:35:27 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 13:32:13 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 int	free_data(t_data *data)
 {
 
+}
+
+void	sync(t_data *data)
+{
+	time_t	time;
+
+	time = data->time_start - timestamp();
+	if (time > 0)
+		usleep(time);
 }
 
 time_t	timestamp(void)
