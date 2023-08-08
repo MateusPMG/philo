@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 13:26:58 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 14:29:32 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_data
 int			run_philos(t_data *data);
 
 //run_philos_utils.c
-void		printer(t_data	*data, int id, char *str);
+void		printer(t_data	*data, int id, char *str, t_philo *philo);
 
 // utils.c
 int			free_data(t_data *data);
