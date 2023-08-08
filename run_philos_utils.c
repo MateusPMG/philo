@@ -6,31 +6,26 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 12:08:23 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 14:43:00 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/08 16:01:01 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+// checks wether someone died or they all ate x nb of times
+// and changes the respective flag
 void	printer(t_data	*data, int id, char *str, t_philo *philo)
 {
 	int	t;
 
 	t = timestamp() - data->time_start;
+	pthread_mutex_lock(&(data->check_death));
 	if (data->died > 0)
 	{
+		pthread_mutex_unlock(&(data->check_death));
 		return ;
 	}
-	if (data->time_die < timestamp - philo->t_last_ate)
-	{
-		pthread_mutex_lock(&(data->check_death));
-		data->died++;
-		pthread_mutex_lock(&(data->writing));
-		printf("%lli, philo %i %s\n", t, id, "has died");
-		pthread_mutex_unlock(&(data->writing));
-		pthread_mutex_lock(&(data->check_death));
-		return ;
-	}
+	pthread_mutex_unlock(&(data->check_death));
 	pthread_mutex_lock(&(data->writing));
 	printf("%lli, philo %i %s\n", t, id, str);
 	pthread_mutex_unlock(&(data->writing));
@@ -41,15 +36,46 @@ void	printer(t_data	*data, int id, char *str, t_philo *philo)
 void	single(t_philo *philo, t_data *data)
 {
 	pthread_mutex_lock(&(data->forks[philo->left_fork]));
-	printer(data, philo->id, "has taken a fork");
+	printer(data, philo->id, "has taken a fork", philo);
 	usleep(data->time_die);
-	printer(data, philo->id, "has died");
+	printer(data, philo->id, "has died", philo);
 	pthread_mutex_unlock(&(data->forks[philo->left_fork]));
 }
 
+int	died(t_data *data)
+{
+	pthread_mutex_lock(&(data->check_death));
+	data->died++;
+	pthread_mutex_lock(&(data->check_death));
+	return (1);
+}
+
 // checks wether someone died or they all ate x nb of times
-// and changes the respective flag
 void	supervisor(t_data *data)
 {
-	
+	int	i;
+	int	t;
+	int	a;
+
+	sync(data);
+	while (1)
+	{
+		i = -1;
+		a = 1;
+		while (++i < data->nb_philos)
+		{
+			if (data->time_die < timestamp - data->philo[i].t_last_ate)
+			{
+				died(data);
+				printer(data, data->philo[i].id, "has died", &data->philo[i]);
+				return ;
+			}
+			if (data->nb_eat == -1)
+				continue ;
+			if (data->philo[i].nb_ate < data->nb_eat)
+				a = 0;
+		}
+		if (data->nb_eat != -1 && a && died(data))
+			return ;
+	}
 }
