@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/08 16:43:46 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/09 16:12:14 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	init_philos(t_data *data)
 		data->philo[i].nb_ate = 0;
 		data->philo[i].left_fork = i + 1;
 		data->philo[i].right_fork = (i % data->nb_philos) + 1;
+		data->philo[i].data = data;
 	}
+	data->time_start = 0;
 	return (0);
 }
 
