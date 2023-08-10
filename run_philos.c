@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/09 16:12:45 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/10 12:30:40 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	eat(t_philo *phil)
 	printer(data, phil->id, "has taken a fork");
 	pthread_mutex_lock(&(data->forks[phil->right_fork]));
 	printer(data, phil->id, "has taken a fork");
+	phil->t_last_ate = timestamp();
 	printer(data, phil->id, "is eating");
 	usleep(data->time_eat);
-	phil->t_last_ate = timestamp();
 	pthread_mutex_lock(&(data->check_meal));
 	(phil->nb_ate)++;
 	pthread_mutex_unlock(&(data->check_meal));
@@ -64,9 +64,9 @@ int	run_philos(t_data *data)
 	data->time_start = timestamp() + (data->nb_philos * 2);
 	while (i < data->nb_philos)
 	{
+		ph[i].t_last_ate = data->time_start;
 		if (pthread_create(&(ph[i].thread_id), NULL, routine, &(ph[i])))
 			return (1);
-		ph[i].t_last_ate = data->time_start;
 		i++;
 	}
 	if (data->nb_philos > 1)
