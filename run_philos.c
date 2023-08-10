@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/10 12:30:40 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/10 14:23:41 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	eat(t_philo *phil)
 	printer(data, phil->id, "has taken a fork");
 	pthread_mutex_lock(&(data->forks[phil->right_fork]));
 	printer(data, phil->id, "has taken a fork");
+	pthread_mutex_lock(&(data->l_ate));
 	phil->t_last_ate = timestamp();
+	pthread_mutex_unlock(&(data->l_ate));
 	printer(data, phil->id, "is eating");
 	usleep(data->time_eat);
 	pthread_mutex_lock(&(data->check_meal));
@@ -39,12 +41,14 @@ void	*routine(void *phil)
 	philo = (t_philo *)phil;
 	data = philo->data;
 	ft_sync(data);
-	if (data->nb_philos)
+	if (data->nb_philos == 1)
 	{
 		single(philo, data);
 		return (0);
 	}
-	while (!(data->died))
+	if (philo->id % 2)
+		usleep(1000);
+	while (!check_died(data))
 	{
 		eat(philo);
 		printer(data, philo->id, "is sleeping");

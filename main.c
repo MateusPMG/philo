@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/09 16:12:14 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/10 15:14:16 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	init_mutex(t_data *data)
 		return (1);
 	if (pthread_mutex_init(&(data->check_death), NULL))
 		return (1);
+	if (pthread_mutex_init(&(data->l_ate), NULL))
+		return (1);
 	return (0);
 }
 
@@ -40,9 +42,17 @@ int	init_philos(t_data *data)
 	{
 		data->philo[i].id = i + 1;
 		data->philo[i].nb_ate = 0;
-		data->philo[i].left_fork = i + 1;
-		data->philo[i].right_fork = (i % data->nb_philos) + 1;
 		data->philo[i].data = data;
+		if (data->philo[i].id % 2)
+		{
+			data->philo[i].left_fork = i;
+			data->philo[i].right_fork = ((i + 1) % data->nb_philos);
+		}
+		else
+		{
+			data->philo[i].right_fork = i;
+			data->philo[i].left_fork = ((i + 1) % data->nb_philos);
+		}
 	}
 	data->time_start = 0;
 	return (0);
@@ -51,9 +61,9 @@ int	init_philos(t_data *data)
 int	init_data(t_data *data, char **av)
 {
 	data->nb_philos = ft_atoi(av[1]);
-	data->time_die = ft_atoi(av[2]);
-	data->time_eat = ft_atoi(av[3]);
-	data->time_sleep = ft_atoi(av[4]);
+	data->time_die = ft_atoi(av[2]) * 1000;
+	data->time_eat = ft_atoi(av[3]) * 1000;
+	data->time_sleep = ft_atoi(av[4]) * 1000;
 	data->died = 0;
 	data->all_ate = 0;
 	if (data->nb_philos < 1 || data->time_die <= 0 || data->time_eat <= 0
