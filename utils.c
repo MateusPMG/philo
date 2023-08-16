@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:58:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/10 15:12:05 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/16 13:11:34 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	free_data(t_data *data)
 	while (++i < data->nb_philos)
 	{
 		pthread_mutex_destroy(&(data->forks[i]));
+		pthread_mutex_destroy(&(data->philo[i].check_meal));
+		pthread_mutex_destroy(&(data->philo[i].l_ate));
 	}
 	pthread_mutex_destroy(&(data->writing));
-	pthread_mutex_destroy(&(data->check_meal));
 	pthread_mutex_destroy(&(data->check_death));
-	pthread_mutex_destroy(&(data->l_ate));
 	free(data->philo);
 	free(data->forks);
 	return (1);

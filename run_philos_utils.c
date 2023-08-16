@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 12:08:23 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/10 15:13:57 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/16 13:10:21 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	single(t_philo *philo, t_data *data)
 {
 	pthread_mutex_lock(&(data->forks[philo->left_fork]));
 	printer(data, philo->id, "has taken a fork");
-	usleep(data->time_die);
+	usleep(data->time_die * 1000);
 	printer(data, philo->id, "has died");
 	pthread_mutex_unlock(&(data->forks[philo->left_fork]));
 }
@@ -69,20 +69,21 @@ void	supervisor(t_data *data)
 		a = 1;
 		while (++i < data->nb_philos)
 		{
-			pthread_mutex_lock(&(data->l_ate));
-			//printf("%li and %li\n", (timestamp() - data->philo[i].t_last_ate), data->time_die2);
-			if ((data->time_die / 1000) <= timestamp() - data->philo[i].t_last_ate)
+			pthread_mutex_lock(&(data->philo[i].l_ate));
+			if ((timestamp() - data->philo[i].t_last_ate) >= data->time_die)
 			{
 				printer(data, data->philo[i].id, "has died");
 				died(data);
-				pthread_mutex_unlock(&(data->l_ate));
+				pthread_mutex_unlock(&(data->philo[i].l_ate));
 				return ;
 			}
-			pthread_mutex_unlock(&(data->l_ate));
+			pthread_mutex_unlock(&(data->philo[i].l_ate));
 			if (data->nb_eat == -1)
 				continue ;
+			pthread_mutex_lock(&(data->philo[i].check_meal));
 			if (data->philo[i].nb_ate < data->nb_eat)
 				a = 0;
+			pthread_mutex_unlock(&(data->philo[i].check_meal));
 		}
 		if (data->nb_eat != -1 && a && died(data))
 			return ;

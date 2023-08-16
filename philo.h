@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/10 15:14:26 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/16 13:08:12 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ struct	s_data;
 
 typedef struct s_philo
 {
-	int				id;
-	int				left_fork;
-	int				right_fork;
-	pthread_t		thread_id;
-	int				nb_ate;
-	struct s_data	*data;
-	time_t			t_last_ate;
+	int					id;
+	int					left_fork;
+	int					right_fork;
+	pthread_t			thread_id;
+	int					nb_ate;
+	struct s_data		*data;
+	time_t				t_last_ate;
+	pthread_mutex_t		check_meal;
+	pthread_mutex_t		l_ate;
 }	t_philo;
 
 typedef struct s_data
@@ -39,14 +41,11 @@ typedef struct s_data
 	time_t				time_eat;
 	time_t				time_sleep;
 	int					nb_eat;
-	int					all_ate;
 	int					died;
 	time_t				time_start;
 	t_philo				*philo;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		l_ate;
 	pthread_mutex_t		writing;
-	pthread_mutex_t		check_meal;
 	pthread_mutex_t		check_death;
 }	t_data;
 

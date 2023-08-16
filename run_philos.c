@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/10 14:23:41 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/16 13:22:15 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,33 @@ void	eat(t_philo *phil)
 	printer(data, phil->id, "has taken a fork");
 	pthread_mutex_lock(&(data->forks[phil->right_fork]));
 	printer(data, phil->id, "has taken a fork");
-	pthread_mutex_lock(&(data->l_ate));
+	pthread_mutex_lock(&(phil->l_ate));
 	phil->t_last_ate = timestamp();
-	pthread_mutex_unlock(&(data->l_ate));
+	pthread_mutex_unlock(&(phil->l_ate));
 	printer(data, phil->id, "is eating");
 	usleep(data->time_eat);
-	pthread_mutex_lock(&(data->check_meal));
+	pthread_mutex_lock(&(phil->check_meal));
 	(phil->nb_ate)++;
-	pthread_mutex_unlock(&(data->check_meal));
+	pthread_mutex_unlock(&(phil->check_meal));
 	pthread_mutex_unlock(&(data->forks[phil->left_fork]));
 	pthread_mutex_unlock(&(data->forks[phil->right_fork]));
+}
+
+void	think(t_philo *philo)
+{
+	time_t	time_to_think;
+
+	pthread_mutex_lock(&philo->l_ate);
+	time_to_think = (philo->data->time_die
+			- (timestamp() - philo->t_last_ate)
+			- philo->data->time_eat) / 2;
+	pthread_mutex_unlock(&philo->l_ate);
+	if (time_to_think <= 0)
+		time_to_think = 1;
+	if (time_to_think > 600)
+		time_to_think = 200;
+	printer(philo->data, philo->id, "is thinking");
+	usleep(time_to_think * 1000);
 }
 
 void	*routine(void *phil)
@@ -53,7 +70,7 @@ void	*routine(void *phil)
 		eat(philo);
 		printer(data, philo->id, "is sleeping");
 		usleep(data->time_sleep);
-		printer(data, philo->id, "is thinking");
+		think(philo);
 	}
 	return (0);
 }

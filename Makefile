@@ -6,7 +6,8 @@ CFLAGS	= -Wall -Werror -Wextra -g3 -lpthread
 all:		$(NAME)
 
 $(NAME):	$(SRC)
-			$(CC) $(CFLAGS) $(^) -o $(@) -fsanitize=address
+			$(CC) $(CFLAGS) $(^) -o $(@) 
+#-fsanitize=address
 #$(CC) $(CFLAGS) $(^) -o $(@) -fsanitize=thread
 
 clean:
