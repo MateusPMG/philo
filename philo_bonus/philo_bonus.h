@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:48:04 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/16 15:36:06 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/16 18:25:57 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_philo
 	pthread_t		thread_id;
 	int				id;
 	int				nb_ate;
-	time_t			last_meal;
+	time_t			last_ate;
 }	t_philo;
 
 typedef struct s_data
@@ -50,5 +50,8 @@ typedef struct s_data
 	time_t		time_sleep;
 	pid_t		*pid;
 }	t_data;
+
+//utils_bonus.c
+time_t	timestamp(void);
 
 #endif

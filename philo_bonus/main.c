@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:48:24 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/16 15:56:01 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/16 17:54:12 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ int	init_philos(t_data *data)
 	data->forks = sem_open("/forks_s", O_CREAT, 0644, data->nb_philos);
 	data->check_death = sem_open("/check_d_s", O_CREAT, 0644, 1);
 	data->writing = sem_open("/writing_s", O_CREAT, 0644, 1);
+	if (data->forks == SEM_FAILED || data->writing == SEM_FAILED
+		|| data->check_death == SEM_FAILED)
+		return (1);
 	return (0);
 }
 
