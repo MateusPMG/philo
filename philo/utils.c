@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:58:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/16 13:11:34 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/17 13:36:51 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,16 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (final * signal);
+}
+
+int	died_checks(t_data *data, int i)
+{
+	if ((timestamp() - data->philo[i].t_last_ate) >= data->time_die)
+	{
+		printer(data, data->philo[i].id, "has died");
+		died(data);
+		pthread_mutex_unlock(&(data->philo[i].l_ate));
+		return (1);
+	}
+	return (0);
 }

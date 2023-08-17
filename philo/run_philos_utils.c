@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 12:08:23 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/16 13:10:21 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/17 13:36:12 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,8 @@ void	supervisor(t_data *data)
 		while (++i < data->nb_philos)
 		{
 			pthread_mutex_lock(&(data->philo[i].l_ate));
-			if ((timestamp() - data->philo[i].t_last_ate) >= data->time_die)
-			{
-				printer(data, data->philo[i].id, "has died");
-				died(data);
-				pthread_mutex_unlock(&(data->philo[i].l_ate));
+			if (died_checks(data, i))
 				return ;
-			}
 			pthread_mutex_unlock(&(data->philo[i].l_ate));
 			if (data->nb_eat == -1)
 				continue ;
