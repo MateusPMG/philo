@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:48:04 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/17 12:36:44 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/17 14:37:59 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,13 @@ typedef struct s_data
 
 //utils_bonus.c
 time_t	timestamp(void);
+int		ft_atoi(const char *nptr);
+int		free_data(t_data *data);
 
 //run_philos_bonus_utils.c
 void	ft_sync(t_data *data);
-void	think(t_data *data, t_philo *philo);
-void	single(t_data *data, t_philo *philo);
+void	*supervisor(void *phil);
+void	printer(t_data *data, int id, char *str);
 
 //run_philos_bonus.c
 int		run_philos(t_data *data);

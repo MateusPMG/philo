@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:48:24 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/16 17:54:12 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/17 14:50:25 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	init_data(t_data *data, char **av)
 		return (1);
 	data->philo = (t_philo *)malloc((sizeof(t_philo) * (data->nb_philos)));
 	data->pid = (pid_t *)malloc(sizeof(pid_t) * (data->nb_philos));
-	if (!data->philo || !data->forks)
+	if (!data->philo || !data->pid)
 		return (free_data(data));
 	if (av[5])
 	{

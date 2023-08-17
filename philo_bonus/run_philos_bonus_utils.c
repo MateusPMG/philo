@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:52:03 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/17 12:36:57 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/17 15:12:07 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,33 @@ void	ft_sync(t_data *data)
 		usleep(time * 1000);
 }
 
-void	think(t_data *data, t_philo *philo)
-{
-	
-}
-
-void	single(t_data *data, t_philo *philo)
-{
-	
-}
-
 void	printer(t_data *data, int id, char *str)
 {
 	int	t;
 
 	t = timestamp() - data->time_start;
-	//need a death condition
-	if (?)
-		return ;
-	//semaphore
+	sem_wait(data->writing);
 	printf("%i philo %i %s\n", t, id, str);
-	//semaphore
+	sem_post(data->writing);
 	return ;
 }
 
-void	supervisor(void *phil)
+void	*supervisor(void *phil)
 {
 	t_philo	*philo;
 	t_data	*data;
 
 	philo = (t_philo *)phil;
 	data = philo->data;
-
+	ft_sync(data);
 	while (1)
 	{
-		
+		sem_wait(data->check_death);
+		if (timestamp() - philo->last_ate >= data->time_die)
+		{
+			printer(data, philo->id, "has died");
+			exit(1);
+		}
+		sem_post(data->check_death);
 	}
 }
