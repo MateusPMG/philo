@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:48:24 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/17 14:50:25 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/18 11:45:30 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	init_data(t_data *data, char **av)
 	data->time_eat = ft_atoi(av[3]) * 1000;
 	data->time_sleep = ft_atoi(av[4]) * 1000;
 	data->died = 0;
-	if (data->nb_philos < 1 || data->time_die <= 0 || data->time_eat <= 0
+	if ((data->nb_philos < 1 || data->nb_philos > 500) 
+		|| data->time_die <= 0 || data->time_eat <= 0
 		|| data->time_sleep <= 0)
 		return (1);
 	data->philo = (t_philo *)malloc((sizeof(t_philo) * (data->nb_philos)));
@@ -68,6 +69,8 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (write(1, "wrong number of arguments\n", 26));
+	if (check_int(ac, av))
+		return (write(1, "bad arguments\n", 14));
 	if (init_data(&data, av))
 		return (write(1, "bad arguments\n", 14));
 	run_philos(&data);

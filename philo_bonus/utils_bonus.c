@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:51:59 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/17 14:37:48 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/18 11:44:00 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,22 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (final * signal);
+}
+
+int	check_int(int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (++i < ac)
+	{
+		j = -1;
+		while (av[i][++j])
+		{
+			if (av[i][j] < '0' || av[i][j] > '9')
+				return (1);
+		}
+	}
+	return (0);
 }
