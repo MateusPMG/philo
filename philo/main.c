@@ -6,11 +6,29 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:32:55 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/16 13:25:20 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/18 11:38:54 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	check_int(int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (++i < ac)
+	{
+		j = -1;
+		while (av[i][++j])
+		{
+			if (av[i][j] < '0' || av[i][j] > '9')
+				return (1);
+		}
+	}
+	return (0);
+}
 
 int	init_mutex(t_data *data)
 {
@@ -65,8 +83,8 @@ int	init_data(t_data *data, char **av)
 	data->time_eat = ft_atoi(av[3]) * 1000;
 	data->time_sleep = ft_atoi(av[4]) * 1000;
 	data->died = 0;
-	if (data->nb_philos < 1 || data->time_die <= 0 || data->time_eat <= 0
-		|| data->time_sleep <= 0)
+	if ((data->nb_philos < 1 || data->nb_philos > 500) || data->time_die <= 0
+		|| data->time_eat <= 0 || data->time_sleep <= 0)
 		return (1);
 	data->philo = (t_philo *)malloc((sizeof(t_philo) * (data->nb_philos)));
 	data->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
@@ -76,7 +94,7 @@ int	init_data(t_data *data, char **av)
 	if (av[5])
 	{
 		data->nb_eat = ft_atoi(av[5]);
-		if (data->nb_eat < 0)
+		if (data->nb_eat <= 0)
 			return (1);
 	}
 	else
@@ -92,6 +110,8 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (write(1, "wrong number of arguments\n", 26));
+	if (check_int(ac, av))
+		return (write(1, "bad arguments\n", 14));
 	if (init_data(&data, av))
 		return (write(1, "bad arguments\n", 14));
 	run_philos(&data);
