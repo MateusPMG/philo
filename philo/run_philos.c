@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 16:01:14 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/16 13:22:15 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/22 16:04:35 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,26 @@ void	think(t_philo *philo)
 	time_to_think = (philo->data->time_die
 			- (timestamp() - philo->t_last_ate)
 			- philo->data->time_eat) / 2;
+	if (!(philo->nb_ate == philo->data->nb_eat))
+		printer(philo->data, philo->id, "is thinking");
 	pthread_mutex_unlock(&philo->l_ate);
 	if (time_to_think <= 0)
 		time_to_think = 1;
 	if (time_to_think > 600)
 		time_to_think = 200;
-	printer(philo->data, philo->id, "is thinking");
 	usleep(time_to_think * 1000);
+}
+
+int	eat_check(t_philo *philo, t_data *data)
+{
+	pthread_mutex_lock(&philo->check_meal);
+	if (philo->nb_ate < data->nb_eat)
+	{
+		pthread_mutex_unlock(&philo->check_meal);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->check_meal);
+	return (0);
 }
 
 void	*routine(void *phil)
@@ -65,7 +78,7 @@ void	*routine(void *phil)
 	}
 	if (philo->id % 2)
 		usleep(1000);
-	while (!check_died(data))
+	while (!check_died(data, philo))
 	{
 		eat(philo);
 		printer(data, philo->id, "is sleeping");

@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 12:08:23 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/17 13:36:12 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/22 16:07:06 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	printer(t_data	*data, int id, char *str)
 	int	t;
 
 	t = timestamp() - data->time_start;
-	if (check_died(data))
+	if (check_died(data, &data->philo[id - 1]))
 		return ;
 	pthread_mutex_lock(&(data->writing));
 	printf("%i philo %i %s\n", t, id, str);
@@ -44,14 +44,17 @@ int	died(t_data *data)
 	return (1);
 }
 
-int	check_died(t_data *data)
+int	check_died(t_data *data, t_philo *philo)
 {
 	pthread_mutex_lock(&(data->check_death));
-	if (data->died)
+	pthread_mutex_lock(&philo->check_meal);
+	if (data->died || philo->nb_ate == data->nb_eat)
 	{
 		pthread_mutex_unlock(&(data->check_death));
+		pthread_mutex_unlock(&philo->check_meal);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->check_meal);
 	pthread_mutex_unlock(&(data->check_death));
 	return (0);
 }

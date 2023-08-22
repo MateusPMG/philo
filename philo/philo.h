@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 13:33:01 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/17 13:37:18 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/22 16:04:05 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void		printer(t_data	*data, int id, char *str);
 void		single(t_philo *philo, t_data *data);
 int			died(t_data *data);
 void		supervisor(t_data *data);
-int			check_died(t_data *data);
+int			check_died(t_data *data, t_philo *philo);
 
 // utils.c
 int			free_data(t_data *data);
