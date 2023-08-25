@@ -6,7 +6,7 @@
 /*   By: mpatrao <mpatrao@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 13:51:19 by mpatrao           #+#    #+#             */
-/*   Updated: 2023/08/17 15:10:38 by mpatrao          ###   ########.fr       */
+/*   Updated: 2023/08/25 16:49:06 by mpatrao          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ void	eat_sleep(t_data *data, t_philo *philo)
 	sem_wait(data->check_death);
 	if (timestamp() - philo->last_ate <= data->time_die)
 		philo->last_ate = timestamp();
+	else
+		return ;
 	sem_post(data->check_death);
 	printer(data, philo->id, "is eating");
 	usleep(data->time_eat);
 	philo->nb_ate++;
+	sem_post(data->forks);
+	sem_post(data->forks);
 	if (philo->nb_ate == data->nb_eat)
+	{
 		exit(0);
-	sem_post(data->forks);
-	sem_post(data->forks);
+	}
 	printer(data, philo->id, "is sleeping");
 	usleep(data->time_sleep);
 }
